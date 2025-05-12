@@ -1,24 +1,20 @@
 class Solution {
     public int rob(int[] nums) {
         int n = nums.length;
-        int[] dp = new int[n];
-        Arrays.fill(dp, -1);
-        return f(nums, n - 1, dp);
-    }
-
-    public int f(int[] nums, int n, int[] dp) {
-        if (n == 0)
+        int prev2 = nums[0];
+        if(n==1){
             return nums[0];
-        if (n < 0)
-            return 0;
-        if (dp[n] != -1)
-            return dp[n];
-
-        int pick = nums[n] + f(nums, n - 2, dp);
-        int notpick = f(nums, n - 1, dp);
-
-        return dp[n] = Math.max(pick, notpick);
+        }
+        int prev1 = Math.max(nums[0], nums[1]);
+        for(int i = 2; i<n; i++){
+        int take = (i>1) ? nums[i] + prev2 : nums[i];
+        int nottake = prev1;
+        int curri = Math.max(take, nottake);
+        prev2 = prev1;
+        prev1 = curri;
+        }
+        return prev1;
     }
 }
 
-//memoization
+//space optimization
