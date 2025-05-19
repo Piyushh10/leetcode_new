@@ -17,6 +17,6 @@ class Solution {
             huihui.add(intervals[i]);
             i+=1;
         }
-        return huihui.toArray(new int[huihui.size()][]);
+        return huihui.toArray(new int[huihui.size()][] );
     }
 }
