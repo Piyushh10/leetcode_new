@@ -14,24 +14,24 @@
  * }
  */
 class Solution {
+    int res=0;
+    int count =0;
     public int kthSmallest(TreeNode root, int k) {
-        TreeSet<Integer> set = new TreeSet<>();
-        traverse(root, set);
-        
-        Iterator<Integer> it = set.iterator();
-        int count = 1;
-        while (it.hasNext()) {
-            int val = it.next();
-            if (count == k) return val;
-            count++;
-        }
-        return -1;
+        inorder(root,k);
+        return res;
     }
     
-    private void traverse(TreeNode node, TreeSet<Integer> set) {
-        if (node == null) return;
-        set.add(node.val);
-        traverse(node.left, set);
-        traverse(node.right, set);
+    private void inorder(TreeNode root, int k){
+        if(root == null) return;
+
+        inorder(root.left, k);
+
+        count++;
+        if(count == k){
+            res = root.val;
+            return;
+        }
+
+        inorder(root.right, k);
     }
 }
