@@ -14,37 +14,14 @@ public class Solution {
         if(headA == null ||headB == null){
             return null;
         }
-        int lenA = getl(headA);
-        int lenB = getl(headB);
 
         ListNode a = headA;
         ListNode b = headB;
 
-        if(lenA > lenB){
-            for(int i = 0; i<lenA-lenB;i++){
-                a = a.next;
-            }
-        }else{
-            for(int i = 0; i<lenB-lenA;i++){
-                b=b.next;
-            }
+        while(a != b){
+            a = a == null ? headB : a.next;
+            b = b == null ? headA : b.next;
         }
-        while(a != null && b!=null){
-            if(a==b){
-                return a;
-            }else{
-                a=a.next;
-                b=b.next;
-            }
-        }
-        return null;
-    }
-    private int getl(ListNode node){
-        int l = 0;
-        while(node != null){
-            l++;
-            node=node.next;
-        }
-        return l;
+        return a;
     }
 }
