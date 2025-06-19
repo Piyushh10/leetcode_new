@@ -19,23 +19,14 @@ class Solution {
             a = a.next;
             l++;
         }
-
-        k=k%l;
-        if(k==0){
-            return head;
+        a.next = head;
+        k = k%l;
+        k = l - k;
+        while(k-- > 0){
+            a = a.next;
         }
-        for(int i = 0; i<k;i++){
-            ListNode prev = null;
-            ListNode last = head;
-
-            while(last.next != null){
-                prev = last;
-                last = last.next;
-            }
-            prev.next = null;
-            last.next = head;
-            head = last;
-        }
+        head = a.next;
+        a.next = null;
         return head;
     }
 }
