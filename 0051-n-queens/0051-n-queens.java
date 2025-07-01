@@ -1,65 +1,70 @@
 class Solution {
-    List<List<String>> res = new ArrayList<>();
     public List<List<String>> solveNQueens(int n) {
-        //creating an empty chess board
-        List<String> board = new ArrayList<>();
-        for(int i = 0; i<n; i++){
-            StringBuilder row = new StringBuilder();
-            for(int j = 0; j<n; j++){
-                row.append('.');
+        List<List<String>> ans = new ArrayList<>();
+        char[][] board = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                board[i][j] = '.';
             }
-            board.add(row.toString());
         }
-        sol(board, 0);
-        return res;
+        solve(0, board, ans, n);
+        return ans;
     }
-    public void sol(List<String> board, int row){
-        //Goal state
-        if(row == board.size()){
-            res.add(new ArrayList<>(board));
+ 
+    private void solve(int col, char[][] board, List<List<String>> ans, int n) {
+        if (col == n) {
+            ans.add(construct(board));
             return;
         }
-
-        //Exploration state
-        for(int i= 0; i<board.size(); i++){
-            if(isvalid(board, row, i)){
-                //Action state
-                StringBuilder r = new StringBuilder(board.get(row));
-                r.setCharAt(i, 'Q');
-
-                board.set(row, r.toString());
-
-                //recursion for the next row
-                sol(board, row + 1);
-
-                //Backtracking
-                r.setCharAt(i, '.');
-                board.set(row, r.toString());
-
+        for (int row = 0; row < n; row++) {
+            if (isSafe(row, col, board, n)) {
+                board[row][col] = 'Q';
+                solve(col + 1, board, ans, n);
+                board[row][col] = '.';
             }
         }
     }
-        private boolean isvalid(List<String> board, int row, int col) {
-        // straight up
-        for (int i = row; i >= 0; i--) {
-            if (board.get(i).charAt(col) == 'Q') {
+
+    private boolean isSafe(int row, int col, char[][] board, int n) {
+        int duprow = row;
+        int dupcol = col;
+
+        while (row >= 0 && col >= 0) {
+            if (board[row][col] == 'Q') {
                 return false;
             }
+            row--;
+            col--;
         }
-        
-        // Check upper left diagonal
-        for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
-            if (board.get(i).charAt(j) == 'Q') {
+
+        row = duprow;
+        col = dupcol;
+
+        while (col >= 0) {
+            if (board[row][col] == 'Q') {
                 return false;
             }
+            col--;
         }
-        
-        // Check upper right diagonal
-        for (int i = row, j = col; i >= 0 && j < board.size(); i--, j++) {
-            if (board.get(i).charAt(j) == 'Q') {
+
+        row = duprow;
+        col = dupcol;
+
+        while (row < n && col >= 0) {
+            if (board[row][col] == 'Q') {
                 return false;
             }
+            row++;
+            col--;
         }
         return true;
+    }
+
+    private List<String> construct(char[][] board) {
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < board.length; i++) {
+            res.add(new String(board[i]));
+        }
+        return res;
     }
 }
