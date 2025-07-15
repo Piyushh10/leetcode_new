@@ -14,37 +14,27 @@ class Solution {
         }
     }
     private static void merge(int[] arr, int left, int mid, int right) {
-        int n1 = mid - left + 1;
-        int n2 = right - mid;
+        int[] merged = new int[right-left+1];
 
-        int[] L = new int[n1];
-        int[] R = new int[n2];
+        int ind1=left;
+        int ind2=mid+1;
+        int a = 0;
 
-        for (int i = 0; i < n1; i++)
-            L[i] = arr[left + i];
-        for (int j = 0; j < n2; j++)
-            R[j] = arr[mid + 1 + j];
-
-        int i = 0, j = 0, k = left;
-        while (i < n1 && j < n2) {
-            if (L[i] <= R[j]) {
-                arr[k] = L[i];
-                i++;
-            } else {
-                arr[k] = R[j];
-                j++;
+        while(ind1 <= mid && ind2 <=right){
+            if(arr[ind1] <= arr[ind2]){
+                merged[a++] = arr[ind1++];
+            }else{
+                merged[a++] = arr[ind2++];
             }
-            k++;
         }
-        while (i < n1) {
-            arr[k] = L[i];
-            i++;
-            k++;
+        while(ind1<=mid){
+            merged[a++] = arr[ind1++];
         }
-        while (j < n2) {
-            arr[k] = R[j];
-            j++;
-            k++;
+        while(ind2<=right){
+            merged[a++] = arr[ind2++];
+        }
+        for(int i = 0, j = left; i<merged.length;i++, j++){
+            arr[j] = merged[i];
         }
     }
 }
